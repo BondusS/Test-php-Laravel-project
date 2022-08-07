@@ -28,25 +28,27 @@ class FlatController extends Controller{
             'owner' => 'required|min:3|max:100'
         ]);
         $flats = new Flat();
-        $flats2 = new Flat();
-        $flats2 = $flats2->all();
         $flats->adres = $request->input(key: 'adres');
         $flats->number = $request->input(key: 'number');
         $flats->rooms = $request->input(key: 'rooms');
         $flats->square = $request->input(key: 'square');
         $flats->owner = $request->input(key: 'owner');
+
+        $flats2 = new Flat();
+        $flats2 = $flats2->where('adres','=',$flats->adres)->get();
+
         $flag = true;
         for($i=0;$i<count($flats2);$i++){
-            if($flats2[i]->number == $flats->number){
+            if($flats2[$i]->number == $flats->number){
                 $flag = false;
             }
-            elseif($flats2[i]->number <= 0 ){
+            elseif($flats2[$i]->number <= 0 ){
                 $flag = false;
             }
-            elseif($flats2[i]->rooms <= 0 ){
+            elseif($flats2[$i]->rooms <= 0 ){
                 $flag = false;
             }
-            elseif($flats2[i]->square <= 0 ){
+            elseif($flats2[$i]->square <= 0 ){
                 $flag = false;
             }
         }
